@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Task 1: Summary of Key Learning Outcomes - Malik Taimur Sultan</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* Long portfolio titles and buttons: allow wrapping on phones (desktop unchanged) */
+			#main a { overflow-wrap: anywhere; }
+			@media screen and (max-width: 736px) {
+				header.major { width: auto; max-width: 100%; }
+				header.major > :first-child, #banner h1 { white-space: normal; }
+				#main .button { white-space: normal; height: auto; line-height: 1.6; padding-top: 0.9em; padding-bottom: 0.9em; }
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="oodp-portfolio.html">OODP Portfolio</a></li>
+							<li><a href="landing.html">Landing</a></li>
+							<li><a href="generic.html">Generic</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h1>Task 1: Summary of Key Learning Outcomes</h1>
+									</header>
+									<p><a href="oodp-portfolio.html">Advanced Object-Oriented Design &amp; Programming</a> &middot; Capstone Project: End of Module Reflective Portfolio</p>
+									<h2 id="secure-coding-practices">1.1 Secure coding practices</h2>
+									<p>Early in the module I treated security as something added at the end. The secure-coding units changed that: I now see security as a design property. I applied input validation at trust boundaries, least privilege, and encapsulation that keeps sensitive state private behind validated methods. I also learned that concurrency faults are security faults, because race conditions can corrupt state or expose data.</p>
+									<p><strong>Practical evidence:</strong> in SmartDesk every incoming ticket passes through a validation layer that rejects malformed or oversized payloads before they reach domain objects, database access uses parameterised queries, and API keys are loaded from environment variables rather than hard-coded. In the threading exercise (Artefact 1) I protected a shared counter with a lock after first reproducing the race condition under load.</p>
+									<h2 id="advanced-object-oriented-principles">1.2 Advanced object-oriented principles</h2>
+									<p>I deepened my use of abstraction, encapsulation, inheritance and polymorphism, and learned to treat the SOLID principles as design heuristics rather than rigid rules. The most important shift was favouring composition over inheritance and programming to interfaces, so behaviour can vary without modifying existing classes (Open/Closed Principle).</p>
+									<p><strong>Practical evidence:</strong> SmartDesk’s domain layer depends only on abstract base classes (Python’s abc module) such as Classifier and PricingStrategy, with concrete implementations injected through constructors. When an early TicketManager class accumulated too many responsibilities, I refactored it into smaller single-responsibility classes for validation, routing and persistence.</p>
+									<h2 id="design-patterns-for-reusable-maintainable-and-flexible-code">1.3 Design patterns for reusable, maintainable and flexible code</h2>
+									<p>Patterns gave me a shared vocabulary for recurring problems, and I learned to select them by the design force they resolve rather than by familiarity.</p>
+									<h3 id="advanced-design-patterns-practical-application">Advanced design patterns (practical application)</h3>
+									<ul>
+									<li><p><strong>Strategy – runtime behavioural flexibility:</strong> triage and pricing algorithms are selected at runtime from client configuration, removing conditional logic scattered across the code.</p></li>
+									<li><p><strong>Decorator – separation of concerns:</strong> logging, authorisation and timing wrap the core service without polluting business logic.</p></li>
+									<li><p><strong>Visitor – extensibility:</strong> new reports are added as new visitor classes while the ticket and asset hierarchy remains stable.</p></li>
+									<li><p><strong>Abstract Factory – scalability:</strong> whole families of AI services (classifier and summariser) can be switched between a cloud provider and a locally hosted model by changing one factory.</p></li>
+									</ul>
+									<h3 id="ai-oriented-oo-patterns-conceptual-awareness">AI-oriented OO patterns (conceptual awareness)</h3>
+									<p>I was also introduced to AI-inspired architectural patterns. A <strong>Model Registry</strong> manages the lifecycle of machine-learning models: versioning, metadata, approval stages and rollback. A <strong>Feature Store</strong> centralises feature definitions so a feature such as “tickets raised by this client in 30 days” is computed identically for training and inference, avoiding training–serving skew. I did not build production versions, but I modelled a lightweight ModelRegistry class in SmartDesk that maps model names and versions to classifier objects, which made the link between OO design and MLOps concrete.</p>
+									<h2 id="architectures-for-large-scale-secure-and-robust-systems">1.4 Architectures for large-scale, secure and robust systems</h2>
+									<p>I learned to structure systems in layers (presentation, application, domain, infrastructure) with dependencies pointing inward, so core logic is independent of frameworks and vendors. Robustness came from defensive design: fail-safe defaults, timeouts and retries around external calls, and fallbacks when a dependency is unavailable.</p>
+									<p><strong>Practical evidence:</strong> SmartDesk follows this layered structure. If the AI provider times out, the router falls back to the rule-based triage strategy, so the service degrades gracefully rather than failing. Role-based access is enforced by a decorator at the application boundary.</p>
+									<h2 id="solutions-adaptable-for-ai-models-and-efficient-for-data-science">1.5 Solutions adaptable for AI models and efficient for data science</h2>
+									<p>I learned that AI-readiness is largely an interface problem: if models sit behind stable abstractions they can be retrained, versioned or replaced without destabilising the system. For data efficiency I used generators to stream ticket records and kept data transformation separate from model logic.</p>
+									<p><strong>Practical evidence:</strong> every SmartDesk model implements a common predict() interface and is retrieved from the registry by version, enabling side-by-side comparison of two classifiers. Visitor-based reports export to pandas DataFrames for analysis.</p>
+									<div class="table-wrapper"><table>
+
+									<thead>
+									<tr class="header">
+									<th>Learning outcome</th>
+									<th>Main evidence from practical work</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr class="odd">
+									<td>Secure coding</td>
+									<td>Validation layer, parameterised queries, thread-safe ID generator</td>
+									</tr>
+									<tr class="even">
+									<td>Advanced OO principles</td>
+									<td>Interface-driven domain layer; TicketManager refactoring</td>
+									</tr>
+									<tr class="odd">
+									<td>Design patterns</td>
+									<td>Strategy, Decorator, Visitor and Abstract Factory artefacts</td>
+									</tr>
+									<tr class="even">
+									<td>Large-scale architecture</td>
+									<td>Layered SmartDesk design, graceful fallback, role decorator</td>
+									</tr>
+									<tr class="odd">
+									<td>AI-adaptable solutions</td>
+									<td>Common model interface, ModelRegistry, AI service factories</td>
+									</tr>
+									</tbody>
+									</table></div>
+									<ul class="actions">
+										<li><a href="oodp-portfolio.html" class="button">&larr; Portfolio overview</a></li>
+										<li><a href="oodp-task2.html" class="button primary">Task 2 &rarr;</a></li>
+									</ul>
+								</div>
+							</section>
+
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner">
+							<section>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Name</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Message</label>
+											<textarea name="message" id="message" rows="6"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Clear" /></li>
+									</ul>
+								</form>
+							</section>
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">amirtaimur@gmail.com</a>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-phone"></span>
+										<h3>Phone</h3>
+										<span>(974) 5581.6687</span>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-home"></span>
+										<h3>Address</h3>
+										<span>Dafna Steet<br />
+										Doha, West Bay<br />
+										State of Qatar</span>
+									</div>
+								</section>
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
