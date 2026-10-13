@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Task 4: Professional Development Plan - Malik Taimur Sultan</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* Long portfolio titles and buttons: allow wrapping on phones (desktop unchanged) */
+			#main a { overflow-wrap: anywhere; }
+			@media screen and (max-width: 736px) {
+				header.major { width: auto; max-width: 100%; }
+				header.major > :first-child, #banner h1 { white-space: normal; }
+				#main .button { white-space: normal; height: auto; line-height: 1.6; padding-top: 0.9em; padding-bottom: 0.9em; }
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="oodp-portfolio.html">OODP Portfolio</a></li>
+							<li><a href="landing.html">Landing</a></li>
+							<li><a href="generic.html">Generic</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h1>Task 4: Professional Development Plan</h1>
+									</header>
+									<p><a href="oodp-portfolio.html">Advanced Object-Oriented Design &amp; Programming</a> &middot; Capstone Project: End of Module Reflective Portfolio</p>
+									<h2 id="introduction-1">4.1 Introduction</h2>
+									<p>This reflection follows Gibbs’ Reflective Cycle (Gibbs, 1988): description, feelings, evaluation, analysis, conclusion and action plan. Within the analysis, I draw on Kolb’s experiential learning cycle (Kolb, 1984) to explain how my understanding grew through practice rather than reading alone. It covers the academic and employability skills I developed during the module and its Capstone Project (SmartDesk).</p>
+									<h2 id="description-and-feelings">4.2 Description and feelings</h2>
+									<p>I began this module with no prior experience of object-oriented programming. Python was also new to me, so I was learning a language and a programming paradigm at the same time. The module moved quickly from core principles to design patterns, concurrency, secure coding and testing. It ended with the SmartDesk Capstone Project, which brought these topics together in one system.</p>
+									<p>My first feeling was uncertainty. Concepts such as polymorphism and abstraction seemed theoretical when I met them in reading, and Python syntax slowed me down before I could focus on design. I worried that I would understand patterns on paper but not know when to use them.</p>
+									<p>That feeling changed as the seminars progressed. Seeing a pattern applied to a concrete problem made the theory meaningful. By the end of the module, the main feeling was satisfaction: the separate topics fitted together into a single, working architecture that I could explain.</p>
+									<h2 id="evaluation">4.3 Evaluation</h2>
+									<p>The strongest part of the module was the seminars. They were well prepared, and the instructor explained concepts clearly. Most importantly, he showed the anatomy of the final submission early, so I understood what a complete project needed before I started building it. This gave me a map for a large amount of unfamiliar material.</p>
+									<p>The main difficulty was the double learning curve. Time spent on Python syntax was time not spent on design, and early on I sometimes understood why a pattern existed but could not yet write it confidently. Balancing the module with long working hours made this harder, which I discuss under time management below.</p>
+									<h2 id="analysis-academic-skills">4.4 Analysis: academic skills</h2>
+									<h3 id="critical-thinking-and-problem-solving">Critical thinking and problem-solving</h3>
+									<p>Kolb’s cycle reflects the development of my thinking: seminar exercises provided concrete experience, reviewing them supported reflective observation, Gamma et al. (1994) introduced the abstract concepts, and the Capstone enabled active experimentation. The main shift was learning to identify what was likely to change before selecting a design pattern.</p>
+									<p>In SmartDesk, triage and pricing rules varied across client contracts and were expected to evolve as service requirements changed. I therefore used the Strategy pattern to place these behaviours behind a common interface, allowing individual rules to be replaced or extended without altering the wider system. Reporting requirements also changed frequently, whereas the underlying ticket and device structure remained comparatively stable. This made the Visitor pattern a suitable choice because it allowed new reporting operations to be introduced without adding reporting logic to the domain classes, despite the additional effort required when introducing new element types. Through these decisions, I learned that design patterns should not be applied simply because they are familiar; each pattern must address a clearly identified source of change and provide benefits that justify its added complexity.</p>
+									<h3 id="ethical-considerations-in-ai-driven-design">Ethical considerations in AI-driven design</h3>
+									<p>The module showed me that ethics is partly a design decision. If biased weights sit in a base class, every subclass inherits them, and the bias spreads quietly through the hierarchy (Mehrabi et al., 2021). Tight coupling to a model also hides its behaviour, creating “black box” components that are hard to test or audit (Sculley et al., 2015).</p>
+									<p>I responded through design. Every SmartDesk classifier exposes an explain() method returning the label, confidence and key features, models are versioned in a ModelRegistry and an audit-logging decorator records each decision. Clean interfaces made the system testable with mocks, which is also what makes it auditable.</p>
+									<h3 id="research-and-self-study">Research and self-study</h3>
+									<p>Beyond the seminars, I used the module readings, the OWASP guidance on secure coding (OWASP Foundation, 2021) and the Python documentation. The reading that most changed my thinking was Sculley et al. (2015) on hidden technical debt in machine-learning systems. It led me to keep SmartDesk’s models behind stable interfaces and a lightweight model registry.</p>
+									<p>I also used an AI assistant to support the development and organisation of the Capstone code. However, my learning came from examining, running and questioning each component until I could explain it independently. This reinforced a key lesson from the module: AI tools can improve efficiency, but engineering judgement must remain with the developer.</p>
+									<h2 id="analysis-employability-skills">4.5 Analysis: employability skills</h2>
+									<h3 id="time-management">Time management</h3>
+									<p>Time management was my main challenge. Long working hours left limited, often tired, study time, while Python and OOP both demanded steady practice. I split the Capstone into milestones tracked on a Kanban board, and starting testing early prevented a last-minute crunch. The lesson I take forward is to plan the hardest learning for the times I am most alert, and to start large tasks early rather than relying on a final push.</p>
+									<h3 id="communication-and-literacy">Communication and literacy</h3>
+									<p>Writing about the Capstone forced me to explain design choices in plain language, not just implement them. Being able to say why a pattern was chosen, and what it costs, is a skill I can use directly with clients and colleagues. UML class and sequence diagrams helped me explain SmartDesk’s structure in discussion forums, and in peer code review I learned to justify trade-offs such as the debugging cost of deep decorator chains.</p>
+									<h3 id="resilience-and-interpersonal-skills">Resilience and interpersonal skills</h3>
+									<p>Learning two new things at once while working full time required persistence. Early confusion was uncomfortable, but I learned that it was a normal stage of learning rather than a sign of failure. Setbacks such as the race condition in the ticket ID generator taught me to reproduce a problem before fixing it. Clear teaching and the structure of the seminars helped me keep going when progress felt slow.</p>
+									<h2 id="conclusion-and-action-plan">4.6 Conclusion and action plan</h2>
+									<p>I started the module new to both OOP and Python, and finished able to choose, justify and critique design patterns in a working system. The most important change is in how I think: I now design for change, testability and accountability, not just for code that runs.</p>
+									<div class="table-wrapper"><table>
+
+									<thead>
+									<tr class="header">
+									<th>Area for improvement</th>
+									<th>Action</th>
+									<th>Evidence of progress</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr class="odd">
+									<td>Python fluency</td>
+									<td>Regular coding practice; Python Institute PCAP certification</td>
+									<td>Certification passed</td>
+									</tr>
+									<tr class="even">
+									<td>Pattern judgement</td>
+									<td>Study Freeman and Robson (2020); refactor one small project per pattern</td>
+									<td>Refactored projects on GitHub</td>
+									</tr>
+									<tr class="odd">
+									<td>Testing intelligent systems</td>
+									<td>Extend mocking and property-based testing to a new AI-dependent project</td>
+									<td>Test suite with documented edge cases</td>
+									</tr>
+									<tr class="even">
+									<td>Time management</td>
+									<td>Fixed weekly study blocks planned around work shifts</td>
+									<td>Coursework started at least two weeks before deadlines</td>
+									</tr>
+									</tbody>
+									</table></div>
+									<h2 id="conclusion">Conclusion</h2>
+									<p>This module moved me from knowing patterns and principles to applying them with judgement. SmartDesk demonstrated how secure, layered, pattern-based design and disciplined testing produce systems that are robust today and ready for AI tomorrow, while my reflections on trade-offs and ethics reminded me that good design is ultimately about responsible decisions, not just elegant code.</p>
+									<h2 id="references">References</h2>
+									<p>Freeman, E. and Robson, E. (2020) Head First Design Patterns. 2nd edn. Sebastopol, CA: O’Reilly Media.</p>
+									<p>Freeman, S. and Pryce, N. (2009) Growing Object-Oriented Software, Guided by Tests. Boston: Addison-Wesley.</p>
+									<p>Gamma, E., Helm, R., Johnson, R. and Vlissides, J. (1994) Design Patterns: Elements of Reusable Object-Oriented Software. Reading, MA: Addison-Wesley.</p>
+									<p>Gibbs, G. (1988) Learning by Doing: A Guide to Teaching and Learning Methods. Oxford: Further Education Unit, Oxford Polytechnic.</p>
+									<p>Kolb, D.A. (1984) Experiential Learning: Experience as the Source of Learning and Development. Englewood Cliffs, NJ: Prentice Hall.</p>
+									<p>Martin, R.C. (2017) Clean Architecture: A Craftsman’s Guide to Software Structure and Design. Boston: Prentice Hall.</p>
+									<p>Mehrabi, N., Morstatter, F., Saxena, N., Lerman, K. and Galstyan, A. (2021) ‘A survey on bias and fairness in machine learning’, ACM Computing Surveys, 54(6), pp. 1–35.</p>
+									<p>OWASP Foundation (2021) OWASP Top 10: 2021. Available at: <a href="https://owasp.org/Top10/">https://owasp.org/Top10/</a> (Accessed: 1 October 2026).</p>
+									<p>Python Software Foundation (2024) unittest.mock — mock object library. Available at: <a href="https://docs.python.org/3/library/unittest.mock.html">https://docs.python.org/3/library/unittest.mock.html</a>.</p>
+									<p>Sculley, D. et al. (2015) ‘Hidden technical debt in machine learning systems’, Advances in Neural Information Processing Systems, 28, pp. 2503–2511.</p>
+									<ul class="actions">
+										<li><a href="oodp-task3.html" class="button">&larr; Task 3</a></li>
+										<li><a href="oodp-portfolio.html" class="button primary">Back to overview</a></li>
+									</ul>
+								</div>
+							</section>
+
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner">
+							<section>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Name</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Message</label>
+											<textarea name="message" id="message" rows="6"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Clear" /></li>
+									</ul>
+								</form>
+							</section>
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">amirtaimur@gmail.com</a>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-phone"></span>
+										<h3>Phone</h3>
+										<span>(974) 5581.6687</span>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-home"></span>
+										<h3>Address</h3>
+										<span>Dafna Steet<br />
+										Doha, West Bay<br />
+										State of Qatar</span>
+									</div>
+								</section>
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

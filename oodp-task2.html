@@ -1,0 +1,299 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Task 2: Showcase of Artefacts - Malik Taimur Sultan</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* Long portfolio titles and buttons: allow wrapping on phones (desktop unchanged) */
+			#main a { overflow-wrap: anywhere; }
+			@media screen and (max-width: 736px) {
+				header.major { width: auto; max-width: 100%; }
+				header.major > :first-child, #banner h1 { white-space: normal; }
+				#main .button { white-space: normal; height: auto; line-height: 1.6; padding-top: 0.9em; padding-bottom: 0.9em; }
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="oodp-portfolio.html">OODP Portfolio</a></li>
+							<li><a href="landing.html">Landing</a></li>
+							<li><a href="generic.html">Generic</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#" class="button primary fit">Get Started</a></li>
+							<li><a href="#" class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h1>Task 2: Showcase of Artefacts</h1>
+									</header>
+									<p><a href="oodp-portfolio.html">Advanced Object-Oriented Design &amp; Programming</a> &middot; Capstone Project: End of Module Reflective Portfolio</p>
+									<p>The artefacts below come from weekly exercises and the Capstone Project. Code is abridged for length.</p>
+									<h2 id="artefact-1-thread-safe-ticket-id-generator-coding-exercise">Artefact 1: Thread-safe ticket ID generator (coding exercise)</h2>
+									<pre><code class="language-python">import threading
+
+class TicketIdGenerator:
+    def __init__(self, start: int = 1000):
+        self._next = start
+        self._lock = threading.Lock()
+
+    def next_id(self) -&gt; int:
+        with self._lock:  # critical section
+            current = self._next
+            self._next += 1
+            return current</code></pre>
+									<p>Without the lock, a stress test running many threads concurrently produced duplicate IDs. Encapsulating both the counter and the lock means callers cannot bypass synchronisation, and a ThreadPoolExecutor-based test now verifies uniqueness.</p>
+									<h2 id="artefact-2-strategy-pattern-pricing-and-triage-rules">Artefact 2: Strategy pattern – pricing and triage rules</h2>
+									<pre><code class="language-python">class PricingStrategy(ABC):
+    @abstractmethod
+    def price(self, ticket) -&gt; float: ...
+
+class StandardPricing(PricingStrategy):
+    def price(self, t): return 40.0 * t.hours
+
+class PremiumSLAPricing(PricingStrategy):
+    def price(self, t): return 55.0 * t.hours * (1.5 if t.urgent else 1.0)
+
+class Quote:
+    def __init__(self, strategy: PricingStrategy): self.strategy = strategy
+    def total(self, ticket): return self.strategy.price(ticket)</code></pre>
+									<p><strong>Why chosen:</strong> pricing rules and AI triage logic differed by client contract and changed frequently; Strategy replaced a growing if/elif chain. <strong>Benefit:</strong> each rule is unit-tested in isolation and new rules are added without editing Quote. The same structure lets a rule-based triager and an ML triager be swapped at runtime.</p>
+									<h2 id="artefact-3-decorator-pattern-logging-and-security-layers">Artefact 3: Decorator pattern – logging and security layers</h2>
+									<pre><code class="language-python">class ServiceDecorator(TicketService):
+    def __init__(self, inner: TicketService): self._inner = inner
+
+class RequireRole(ServiceDecorator):
+    def __init__(self, inner, role): super().__init__(inner); self._role = role
+
+    def submit(self, user, ticket):
+        if self._role not in user.roles: raise PermissionError("denied")
+        return self._inner.submit(user, ticket)
+
+class AuditLogging(ServiceDecorator):
+    def submit(self, user, ticket):
+        log.info("submit by %s", user.id)
+        return self._inner.submit(user, ticket)
+
+service = AuditLogging(RequireRole(CoreTicketService(), "agent"))</code></pre>
+									<p><strong>Why chosen:</strong> logging and authorisation are cross-cutting concerns that should not live inside business logic. <strong>Benefit:</strong> layers are composable and reorderable, and the core service is tested without security or logging noise.</p>
+									<h2 id="artefact-4-visitor-pattern-analytics-and-reporting">Artefact 4: Visitor pattern – analytics and reporting</h2>
+									<pre><code class="language-python">class ReportVisitor(ABC):
+    @abstractmethod
+    def visit_ticket(self, t): ...
+    @abstractmethod
+    def visit_device(self, d): ...
+
+class Ticket:
+    def accept(self, v): return v.visit_ticket(self)
+
+class SLABreachReport(ReportVisitor):
+    def __init__(self): self.breaches = 0
+    def visit_ticket(self, t): self.breaches += t.resolution_hrs &gt; t.sla_hrs
+    def visit_device(self, d): pass</code></pre>
+									<p><strong>Why chosen:</strong> the ticket/device structure was stable, but reporting requirements changed often. <strong>Benefit:</strong> analytics are separated from domain objects, and a new report is simply a new class. The trade-off is that adding a new element type forces changes to every visitor.</p>
+									<h2 id="artefact-5-abstract-factory-switching-ai-service-providers">Artefact 5: Abstract Factory – switching AI service providers</h2>
+									<pre><code class="language-python">class AIServiceFactory(ABC):
+    @abstractmethod
+    def classifier(self) -&gt; Classifier: ...
+    @abstractmethod
+    def summariser(self) -&gt; Summariser: ...
+
+class CloudAIFactory(AIServiceFactory):
+    def classifier(self): return CloudClassifier(os.environ["AI_KEY"])
+    def summariser(self): return CloudSummariser()
+
+class LocalAIFactory(AIServiceFactory):
+    def classifier(self): return registry.get("triage", version="v3")
+    def summariser(self): return LocalSummariser()
+
+factory = LocalAIFactory() if config.data_residency else CloudAIFactory()</code></pre>
+									<p><strong>Why chosen:</strong> some clients require data to stay on-premises, and components from different providers must not be mixed. <strong>Benefit:</strong> vendor independence, guaranteed family consistency, and a FakeAIFactory for tests.</p>
+									<h2 id="testing-mocking-and-ai-driven-testing">2.6 Testing: mocking and AI-driven testing</h2>
+									<pre><code class="language-python">from unittest.mock import Mock
+
+def test_urgent_ticket_routed_to_priority_queue():
+    clf = Mock(spec=Classifier)
+    clf.predict.return_value = "urgent"
+    assert TicketRouter(clf).route(Ticket("Server down")) == "priority"
+    clf.predict.assert_called_once()
+
+def test_fallback_when_model_times_out():
+    clf = Mock(spec=Classifier); clf.predict.side_effect = TimeoutError
+    assert TicketRouter(clf).route(Ticket("Printer jam")) == "standard"</code></pre>
+									<p>Using pytest and unittest.mock, I <strong>isolated classes</strong> from their collaborators; spec= ensures each mock honours the real interface. <strong>AI-dependent components were tested without live models or APIs</strong>: mocks returned deterministic labels and simulated failures via side_effect, making tests fast, free and repeatable.</p>
+									<p>I also reflected on <strong>AI-assisted testing tools</strong>. An AI coding assistant was useful for <strong>test-case generation</strong>, quickly drafting boundary tests for pricing rules. Combined with property-based testing (Hypothesis), it supported <strong>edge-case discovery</strong>, surfacing inputs such as empty descriptions and zero-hour tickets that I had not considered. Generated tests, once reviewed, were added to the <strong>regression suite</strong> run on every commit. However, several suggestions merely asserted current behaviour rather than intended behaviour, or duplicated existing tests. I therefore treated AI as a support for OO quality, not a replacement for engineering judgement: I decided what “correct” meant, and the tools helped me check it.</p>
+									<h2 id="capstone-project-smartdesk">2.7 Capstone Project: SmartDesk</h2>
+									<ul>
+									<li><p><strong>Patterns and scalable architecture:</strong> Strategy and Abstract Factory made AI and pricing behaviour pluggable; Decorator kept cross-cutting concerns at the edges; Visitor allowed reporting to grow independently.</p></li>
+									<li><p><strong>Testing for robustness:</strong> mock-based unit tests, integration tests per factory, a concurrency stress test and continuous regression testing gave confidence when refactoring.</p></li>
+									<li><p><strong>AI-readiness at design level:</strong> models sit behind interfaces, are versioned in a registry and created through factories, with a rule-based fallback strategy, so new models can be adopted without redesign.</p></li>
+									</ul>
+									<h2 id="critical-commentary-on-artefacts">2.8 Critical commentary on artefacts</h2>
+									<div class="table-wrapper"><table>
+
+									<thead>
+									<tr class="header">
+									<th>Artefact</th>
+									<th>OO principles and techniques</th>
+									<th>Challenges and how I overcame them</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr class="odd">
+									<td>Thread-safe generator</td>
+									<td>Encapsulation, information hiding, context manager</td>
+									<td>Intermittent race was hard to reproduce; I built a stress test first, then added the lock.</td>
+									</tr>
+									<tr class="even">
+									<td>Strategy</td>
+									<td>Polymorphism, Dependency Inversion, Open/Closed</td>
+									<td>Deciding who selects the strategy; a small factory driven by contract configuration solved this.</td>
+									</tr>
+									<tr class="odd">
+									<td>Decorator</td>
+									<td>Composition, Single Responsibility, Liskov Substitution</td>
+									<td>Wrapping order changed behaviour; I documented the intended order and tested it.</td>
+									</tr>
+									<tr class="even">
+									<td>Visitor</td>
+									<td>Double dispatch, separation of concerns</td>
+									<td>Python lacks method overloading and double dispatch was initially confusing; explicit visit_x names and a diagram clarified it.</td>
+									</tr>
+									<tr class="odd">
+									<td>Abstract Factory</td>
+									<td>Abstraction, Dependency Inversion, family consistency</td>
+									<td>Providers had unequal capabilities; I designed to a common interface with optional capability checks.</td>
+									</tr>
+									<tr class="even">
+									<td>Mock-based tests</td>
+									<td>Dependency injection, test doubles</td>
+									<td>Over-mocking made tests brittle; I limited mocks to architectural boundaries.</td>
+									</tr>
+									</tbody>
+									</table></div>
+									<h2 id="trade-offs-and-critical-reflection">2.9 Trade-offs and critical reflection</h2>
+									<p><strong>Pattern selection trade-offs:</strong> each pattern resolved one problem while creating another. Visitor eases adding operations but makes adding element types costly; Decorator adds flexibility but deep wrapper chains complicate debugging. In Python, a simple function can often replace a Strategy class, so I reserved full classes for strategies that hold state or configuration.</p>
+									<p><strong>Testing complexity:</strong> abstraction improved testability, but more interfaces meant more test doubles and fixtures to maintain. Concurrency and AI behaviour were the hardest to test deterministically, which I addressed with controlled mocks and repeated stress runs.</p>
+									<p><strong>Abstraction vs over-engineering:</strong> I initially created an Abstract Factory for notification channels with only one implementation. Applying YAGNI and the “rule of three”, I removed it. My working rule became: introduce an abstraction when there is a real second variant or a clear testing need, not in anticipation.</p>
+									<ul class="actions">
+										<li><a href="oodp-task1.html" class="button">&larr; Task 1</a></li>
+										<li><a href="oodp-task3.html" class="button primary">Task 3 &rarr;</a></li>
+									</ul>
+								</div>
+							</section>
+
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner">
+							<section>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Name</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Message</label>
+											<textarea name="message" id="message" rows="6"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Clear" /></li>
+									</ul>
+								</form>
+							</section>
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">amirtaimur@gmail.com</a>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-phone"></span>
+										<h3>Phone</h3>
+										<span>(974) 5581.6687</span>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-home"></span>
+										<h3>Address</h3>
+										<span>Dafna Steet<br />
+										Doha, West Bay<br />
+										State of Qatar</span>
+									</div>
+								</section>
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
